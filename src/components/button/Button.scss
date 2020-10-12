@@ -1,0 +1,64 @@
+@import "../../styles/variables";
+
+$outlined-border-width: 1px;
+$outlined-hover-alpha: 0.2;
+
+.button {
+  border-radius: $border-radius;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.2);
+  transition: background-color $short-transition-time ease-in-out;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.button.contained {
+  padding: $spacing $spacing * 2;
+}
+
+.button.contained.primary {
+  background-color: $primary-color;
+  color: $primary-contrast-color;
+}
+
+.button.primary.contained:hover {
+  background-color: $primary-dark-color;
+}
+
+.button.contained.secondary {
+  background-color: $secondary-color;
+  color: $secondary-contrast-color;
+}
+
+.button.contained.secondary:hover {
+  background-color: $secondary-dark-color;
+}
+
+// Outlined variants
+.button.outlined {
+  background-color: transparent;
+  border-width: $outlined-border-width;
+  border-style: solid;
+  padding: $spacing - $outlined-border-width ($spacing * 2) - $outlined-border-width;
+}
+
+.button.outlined.primary {
+  border-color: $primary-color;
+}
+
+.button.primary.outlined:hover {
+  background-color: rgba($primary-color, $outlined-hover-alpha);
+}
+
+.button.outlined.secondary {
+  border-color: $secondary-color;
+}
+
+.button.secondary.outlined:hover {
+  background-color: rgba($secondary-color, $outlined-hover-alpha);
+}

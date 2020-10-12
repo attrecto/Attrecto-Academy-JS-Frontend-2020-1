@@ -1,17 +1,23 @@
-import React, { Component } from "react";
+import React, { FunctionComponent, MouseEventHandler } from "react";
+import classNames from "classnames";
 
-export class Button extends Component {
-  onClick() {
-    console.log('Clicked');
-  }
+import './Button.scss';
 
-  render() {
-    return (
-      <button onClick={this.onClick}>
-        {this.props.children}
-      </button>
-    );
-  }
+interface ButtonProps {
+  onClick?: MouseEventHandler,
+  variant?: 'contained' | 'outlined',
+  color?: 'primary' | 'secondary'
 }
+
+const Button: FunctionComponent<ButtonProps> = (props) => {
+  return (
+    <button className={classNames('button', props.variant, props.color)} onClick={props.onClick}>{props.children}</button>
+  );
+};
+
+Button.defaultProps = {
+  variant: 'contained',
+  color: 'primary'
+};
 
 export default Button;

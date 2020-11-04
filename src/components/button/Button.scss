@@ -15,6 +15,11 @@ $outlined-hover-alpha: 0.2;
   &:focus {
     outline: 0;
   }
+
+  &.Disabled {
+    cursor: not-allowed;
+    background-color: gray !important;
+  }
 }
 
 .button.contained {
@@ -44,7 +49,8 @@ $outlined-hover-alpha: 0.2;
   background-color: transparent;
   border-width: $outlined-border-width;
   border-style: solid;
-  padding: $spacing - $outlined-border-width ($spacing * 2) - $outlined-border-width;
+  padding: $spacing - $outlined-border-width ($spacing * 2) -
+    $outlined-border-width;
 }
 
 .button.outlined.primary {

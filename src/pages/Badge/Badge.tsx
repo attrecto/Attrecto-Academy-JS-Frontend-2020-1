@@ -4,6 +4,9 @@ import { BadgeModel } from "../../models/badge.model";
 import { RouteComponentProps } from "react-router";
 import Button from "../../components/button/Button";
 import { Field, Form, Formik } from "formik";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import TextField from "../../components/textField/TextField";
 
 interface BadgeProps extends RouteComponentProps<{ id: string }> {}
 
@@ -27,8 +30,22 @@ class Badge extends Component<BadgeProps, BadgeState> {
     }
   }
 
-  onSubmit = (values: any) => {
-    console.log("values", values);
+  onSubmit = async (values: BadgeModel) => {
+    const id = this.state.badge?.id;
+    if (id) {
+      await this.badgeService.updateBadge(id.toString(), values);
+    } else {
+      await this.badgeService.createBadge(values);
+    }
+    toast.success("Saved successfully!");
+    this.props.history.push("/badges");
+  };
+
+  validationSchema = () => {
+    return Yup.object().shape({
+      name: Yup.string().required(),
+      description: Yup.string().required(),
+    });
   };
 
   render() {
@@ -37,30 +54,27 @@ class Badge extends Component<BadgeProps, BadgeState> {
       <div className="container mt-4">
         <div className="card p-4">
           <Formik
-            initialValues={{
-              name: badge?.name,
-              description: badge?.description,
-            }}
+            initialValues={
+              {
+                name: badge?.name,
+                description: badge?.description,
+              } as BadgeModel
+            }
+            validationSchema={this.validationSchema()}
             enableReinitialize
             onSubmit={this.onSubmit}
           >
-            <Form>
-              <div className="form-group">
-                <label>Name</label>
-                <Field name="name" type="text" className="form-control" />
-              </div>
-
-              <div className="form-group">
-                <label>Description</label>
-                <Field
-                  name="description"
-                  type="text"
-                  className="form-control"
-                />
-              </div>
-
-              <Button>Save</Button>
-            </Form>
+            {({ isValid }) => {
+              return (
+                <Form>
+                  <TextField name={"name"} label={"Name"} />
+                  <TextField name={"description"} label={"Description"} />
+                  <Button disabled={!isValid}>
+                    {this.state.badge?.id ? "Save" : "Update"}
+                  </Button>
+                </Form>
+              );
+            }}
           </Formik>
         </div>
       </div>

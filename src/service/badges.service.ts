@@ -15,4 +15,27 @@ export class BadgesService {
       resource: `badges/${id}`,
     });
   }
+
+  async updateBadge(id: string, badge: BadgeModel) {
+    return request<BadgeModel>({
+      method: Methods.PATCH,
+      resource: `badges/${id}`,
+      data: badge,
+    });
+  }
+
+  async createBadge(badge: BadgeModel) {
+    return request<BadgeModel>({
+      method: Methods.POST,
+      resource: `badges`,
+      data: badge,
+    });
+  }
+
+  async deleteBadge(id: string) {
+    return request<BadgeModel>({
+      method: Methods.DELETE,
+      resource: `badges/${id}`,
+    });
+  }
 }

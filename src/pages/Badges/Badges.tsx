@@ -3,6 +3,8 @@ import { BadgesService } from "../../service/badges.service";
 import { BadgeModel } from "../../models/badge.model";
 import { RouteComponentProps } from "react-router";
 import "./Badges.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface BadgesProps extends RouteComponentProps {}
 
@@ -17,15 +19,37 @@ class Badges extends Component<BadgesProps, BadgesState> {
 
   badgeService = new BadgesService();
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchAndSaveBadges();
+  }
+
+  async fetchAndSaveBadges() {
     const response = await this.badgeService.getBadges();
     this.setState({ badges: response });
+  }
+
+  async deleteBadge(id: number) {
+    await this.badgeService.deleteBadge(id.toString());
+    this.fetchAndSaveBadges();
   }
 
   render() {
     return (
       <div className="container mt-4">
         <div className="row">
+          <div className="p-3 col-12 col-md-6 col-lg-4">
+            <div
+              className="card p3 BadgeCard CreateCard"
+              onClick={() => {
+                this.props.history.push("/badge");
+              }}
+            >
+              <div className="d-flex justify-content-center align-items-center m-auto CreateButton">
+                CREATE NEW BADGE
+              </div>
+            </div>
+          </div>
+
           {this.state.badges.map((badge: BadgeModel) => {
             return (
               <div key={badge.id} className="p-3 col-12 col-md-6 col-lg-4">
@@ -38,6 +62,15 @@ class Badges extends Component<BadgesProps, BadgesState> {
                 >
                   <h5 className="card-title">{badge.name}</h5>
                   <div>{badge.description}</div>
+
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className={"DeleteIcon"}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      this.deleteBadge(badge.id);
+                    }}
+                  />
                 </div>
               </div>
             );

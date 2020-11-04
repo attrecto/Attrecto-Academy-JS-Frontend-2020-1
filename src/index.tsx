@@ -6,6 +6,7 @@ import App from './App';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-toastify/dist/ReactToastify.css';
 import {Router} from "react-router";
 import {createBrowserHistory} from 'history';
 const history = createBrowserHistory();

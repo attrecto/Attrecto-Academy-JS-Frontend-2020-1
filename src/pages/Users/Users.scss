@@ -1,16 +1,19 @@
-.BadgeCard {
+.UserCard {
   &:hover {
     cursor: pointer;
     background: whitesmoke;
   }
 
   &.CreateCard {
-    height: 94px;
-
     .CreateButton {
       color: darkseagreen;
       font-weight: 600;
     }
+  }
+
+  .UserImage {
+    height: 250px;
+    object-fit: cover;
   }
 
   .DeleteIcon {

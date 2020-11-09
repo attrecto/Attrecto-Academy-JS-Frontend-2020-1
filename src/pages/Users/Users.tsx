@@ -64,7 +64,11 @@ class Users extends Component<UsersProps, UsersState> {
                     this.props.history.push(`user/${user.id}`);
                   }}
                 >
-                  <img className="card-img-top UserImage" src={user.image} />
+                  <img
+                    className="card-img-top UserImage"
+                    src={user.image}
+                    alt={user.name}
+                  />
                   <div className="card-body">
                     <h5 className="card-title">{user.name}</h5>
                   </div>

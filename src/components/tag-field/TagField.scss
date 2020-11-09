@@ -1,0 +1,11 @@
+@import "../../styles/variables";
+
+.tag-field-badge {
+  padding: $spacing $spacing * 2 !important;
+  cursor: pointer;
+
+  &:hover,
+  &.selected {
+    background: $primary-color;
+  }
+}

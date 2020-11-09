@@ -4,8 +4,9 @@ import React, { Component } from "react";
 import { UsersService } from "../../service/users.service";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import TextField from "../../components/textField/TextField";
+import TagField from "../../components/tag-field/TagField";
 import Button from "../../components/button/Button";
 import { BadgeModel } from "../../models/badge.model";
 import { BadgesService } from "../../service/badges.service";
@@ -60,11 +61,13 @@ class User extends Component<UserProps, UserState> {
   validationSchema = () => {
     return Yup.object().shape({
       name: Yup.string().required(),
+      image: Yup.string().url(),
     });
   };
 
   render() {
-    const { user } = this.state;
+    const { user, badges } = this.state;
+
     return (
       <div className="container mt-4">
         <div className="card p-4">
@@ -73,6 +76,7 @@ class User extends Component<UserProps, UserState> {
               {
                 name: user?.name,
                 image: user?.image,
+                badges: user?.badges || [],
               } as UserModel
             }
             validationSchema={this.validationSchema()}
@@ -84,21 +88,23 @@ class User extends Component<UserProps, UserState> {
             {({ isValid }) => {
               return (
                 <Form>
-                  <TextField name={"name"} label={"Name"} />
-                  <TextField name={"image"} label={"Profile image url"} />
+                  <Field component={TextField} name="name" label="Name" />
+                  <Field
+                    component={TextField}
+                    name="image"
+                    label="Profile image url"
+                  />
 
-                  <div className="d-flex mb-3">
-                    {this.state.badges.map((badge: BadgeModel) => {
-                      return (
-                        <span className="badge badge-info mr-3">
-                          {badge.name}
-                        </span>
-                      );
-                    })}
-                  </div>
+                  <Field
+                    component={TagField}
+                    name="badges"
+                    options={badges}
+                    idKey="id"
+                    displayKey="name"
+                  />
 
-                  <Button disabled={!isValid}>
-                    {this.state.user?.id ? "Save" : "Update"}
+                  <Button type="submit" disabled={!isValid}>
+                    {this.state.user?.id ? "Update" : "Save"}
                   </Button>
                 </Form>
               );

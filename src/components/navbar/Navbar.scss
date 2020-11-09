@@ -1,0 +1,9 @@
+@import "../../styles/variables";
+
+.nav-link {
+  &.active {
+    border-radius: $border-radius;
+    background-color: $primary-color;
+    color: $primary-contrast-color;
+  }
+}

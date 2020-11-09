@@ -63,14 +63,20 @@ class Badge extends Component<BadgeProps, BadgeState> {
             validationSchema={this.validationSchema()}
             enableReinitialize
             onSubmit={this.onSubmit}
+            validateOnMount
+            validateOnChange
           >
             {({ isValid }) => {
               return (
                 <Form>
-                  <TextField name={"name"} label={"Name"} />
-                  <TextField name={"description"} label={"Description"} />
-                  <Button disabled={!isValid}>
-                    {this.state.badge?.id ? "Save" : "Update"}
+                  <Field component={TextField} name="name" label="Name" />
+                  <Field
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                  />
+                  <Button type="submit" disabled={!isValid}>
+                    {this.state.badge?.id ? "Update" : "Save"}
                   </Button>
                 </Form>
               );

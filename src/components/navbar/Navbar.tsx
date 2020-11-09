@@ -1,36 +1,49 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+import "./Navbar.scss";
+import Button from "../button/Button";
+
+interface NavbarProps {
+  setToken: (token: string | null) => void;
+}
 
 interface RouteConfig {
   link: string;
   label: string;
 }
 
-const Navbar: FC = () => {
+const Navbar: FC<NavbarProps> = ({ setToken }) => {
   const routes: RouteConfig[] = [
     {
-      link: "/home",
-      label: "Home",
+      link: "/users",
+      label: "Users",
     },
     {
       link: "/badges",
       label: "Badges",
     },
-    {
-      link: "/users",
-      label: "Users",
-    },
   ];
+
+  const logout = () => {
+    setToken(null);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      {routes.map((route: RouteConfig) => {
-        return (
-          <Link key={route.link} to={route.link} className="mr-3">
-            {route.label}
-          </Link>
-        );
-      })}
+      <div className="d-flex flex-grow-1">
+        {routes.map((route: RouteConfig) => {
+          return (
+            <NavLink key={route.link} to={route.link} className="nav-link mr-3">
+              {route.label}
+            </NavLink>
+          );
+        })}
+      </div>
+
+      <Button variant="outlined" color="secondary" onClick={logout}>
+        Logout
+      </Button>
     </nav>
   );
 };

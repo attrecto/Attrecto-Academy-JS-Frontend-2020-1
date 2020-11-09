@@ -1,10 +1,17 @@
-import React, { FunctionComponent, MouseEventHandler } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  FunctionComponent,
+} from "react";
 import classNames from "classnames";
 
 import "./Button.scss";
 
-interface ButtonProps {
-  onClick?: MouseEventHandler;
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   variant?: "contained" | "outlined";
   color?: "primary" | "secondary";
   disabled?: boolean;
@@ -13,19 +20,24 @@ interface ButtonProps {
 const Button: FunctionComponent<ButtonProps> = (props) => {
   return (
     <button
-      className={classNames("button", props.variant, props.color, {
-        Disabled: props.disabled,
-      })}
-      onClick={props.onClick}
-    >
-      {props.children}
-    </button>
+      {...props}
+      className={classNames(
+        "button",
+        props.className,
+        props.variant,
+        props.color,
+        {
+          disabled: props.disabled,
+        }
+      )}
+    />
   );
 };
 
 Button.defaultProps = {
   variant: "contained",
   color: "primary",
+  type: "button",
 };
 
 export default Button;
